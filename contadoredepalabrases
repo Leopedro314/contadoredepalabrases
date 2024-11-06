@@ -1,0 +1,67 @@
+<div class="container-wrapper">
+    <div class="container">        
+        <textarea id="textInput" placeholder="Introduzca aquí su texto..."></textarea>
+
+        <div id="counts">
+            <div class="countBox">
+                <div id="wordCount" class="countNumber">0</div>
+                <p>Palabras</p>
+            </div>
+            <div class="countBox">
+                <div id="charCount" class="countNumber">0</div>
+                <p>Caracteres</p>
+            </div>
+            <div class="countBox">
+                <div id="paraCount" class="countNumber">0</div>
+                <p>Párrafos</p>
+            </div>
+            <div class="countBox">
+                <div id="sentCount" class="countNumber">0</div>
+                <p>Sentencias</p>
+            </div>
+        </div>
+
+        <div id="readTime">Tiempo estimado de lectura: 0 Minutos</div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('textInput').addEventListener('input', function() {
+        const text = this.value;
+        const wordCount = countWords(text);
+        const charCount = countCharacters(text);
+        const paraCount = countParagraphs(text);
+        const sentCount = countSentences(text);
+        const readTime = calculateReadTime(wordCount);
+        
+        document.getElementById('wordCount').textContent = wordCount;
+        document.getElementById('charCount').textContent = charCount;
+        document.getElementById('paraCount').textContent = paraCount;
+        document.getElementById('sentCount').textContent = sentCount;
+        document.getElementById('readTime').textContent = `Tiempo estimado de lectura: ${readTime} Minuto${readTime === 1 ? '' : 's'}`;
+    });
+
+    function countWords(text) {
+        const words = text.trim().split(/\s+/);
+        return words[0] === '' ? 0 : words.length;
+    }
+
+    function countCharacters(text) {
+        return text.length;
+    }
+
+    function countParagraphs(text) {
+        const paragraphs = text.trim().split(/\n+/);
+        return paragraphs[0] === '' ? 0 : paragraphs.length;
+    }
+
+    function countSentences(text) {
+        const sentences = text.split(/[.!?]+\s/);
+        return sentences[0] === '' ? 0 : sentences.length;
+    }
+
+    function calculateReadTime(wordCount) {
+        const wordsPerMinute = 200;
+        return Math.ceil(wordCount / wordsPerMinute);
+    }
+</script>
